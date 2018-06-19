@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>Hello Spring Security</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+</head>
+<body>
+<div class="container">
+    <div th:replace="index::logout"></div>
+    <h1>This is a secured page!</h1>
+
+    <h3>My Info</h3>
+    <label for="username">Username</label>:
+    <input type="text" id="username" readonly="readonly" th:field="${user.username}"/> <br/>
+
+    <label for="email">Email</label>:
+    <input type="text" id="email" th:field="${user.email}"/>
+    <button class="button" id="update-email-btn">update</button>
+    <br/>
+
+    <p><a href="/" th:href="@{/}">Back to home page</a></p>
+</div>
+
+<script src="/webjars/jquery/jquery.min.js"></script>
+<script src="/webjars/popper.js/popper.min.js"></script>
+<script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+<script>
+
+    var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
+    $(document).ajaxSend(function (e, xhr, options) {
+        xhr.setRequestHeader(header, token);
+    });
+
+    // var token = $('#_csrf').attr('content');
+    // var header = $('#_csrf_header').attr('content');
+
+    // var token = "[[${_csrf.token}]]";
+    // var header = "[(${_csrf.headerName})]";
+
+    $('#update-email-btn').click(function () {
+
+
+        var url = "/user/email";
+        var email = $('#email').val();
+
+        $.post(
+            url,
+            "email=" + email,
+            function (data, status) {
+                alert("Updated Email: " + data.email + "\nStatus: " + status);
+            });
+
+        // $.ajax({
+        //     type: "POST",
+        //     url: url,
+        //     // data: "email=" + email,
+        //     data: {
+        //         "email": email
+        //     },
+        //     beforeSend: function (xhr) {
+        //         xhr.setRequestHeader(header, token);
+        //     },
+        //     success: function (data, textStatus, jqXHR) {
+        //         alert("Data: " + data + "\nStatus: " + textStatus);
+        //     },
+        //     error: function (request, status, error) {
+        //         alert(status);
+        //     }
+        // });
+    });
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Spring Security Demo 4</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css">
+</head>
+<body>
+<div th:fragment="logout" style="float: right;">
+    <div th:unless="${_USER}">Not logged in.</div>
+    <div th:if="${_USER}">
+        Logged in user: <span th:text="${_USER.username}"></span><br>
+        Roles: <span th:text="${_USER.authorities}"></span><br>
+
+        <form action="#" th:action="@{/logout}" method="post">
+            <input type="submit" value="Logout"/>
+        </form>
+    </div>
+</div>
+<div class="container">
+    <h1>Hello! Spring Security Demo 4</h1>
+    <div id="log" class="shadow p-3 mb-4 mt-3 bg-light rounded">Test Login, Join.</div>
+    <ul>
+        <li><a href="/user" th:href="@{/user}">Go to Secured pages (user info)</a></li>
+        <li><a href="/admin" th:href="@{/admin}">Go to Admin Only pages (XSS & CSRF TEST)</a></li>
+        <li><a href="/login" th:href="@{/login}">Go to Login page.</a></li>
+        <li><a href="/join" th:href="@{/join}">Go to Join page.</a></li>
+    </ul>
+</div>
+
+</body>
+</html>

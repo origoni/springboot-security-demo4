@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin Only</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css">
+    <script src="/webjars/jquery/jquery.min.js"></script>
+    <script src="/webjars/popper.js/popper.min.js"></script>
+    <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+    <script>
+        var token = "[[${_csrf.token}]]";
+        var header = "[(${_csrf.headerName})]";
+        $(document).ajaxSend(function (e, xhr, options) {
+            xhr.setRequestHeader(header, token);
+        });
+    </script>
+</head>
+<body>
+<div class="container">
+    <div th:replace="index::logout"></div>
+    <h1>This is a Admin Only page!</h1>
+    <h2>XSS & CSRF TEST!</h2>
+
+    <div>
+        <p>
+            escapeXml : [[${xssContent}]]
+        </p>
+        <p>
+            Vanilla : [(${xssContent})]
+        </p>
+        <!--<script>-->
+            <!--// var token = "[[${_csrf.token}]]";-->
+            <!--// var header = "[(${_csrf.headerName})]";-->
+            <!--// alert("token: " + token + "\nheader: " + header);-->
+            <!--//-->
+            <!--// $.ajax({-->
+            <!--//     type: "POST",-->
+            <!--//     url: "/user/email",-->
+            <!--//     data: "email=" + "csrf@xss.omg",-->
+            <!--//     beforeSend: function (xhr) {-->
+            <!--//         xhr.setRequestHeader(header, token);-->
+            <!--//     },-->
+            <!--//     success: function (data, textStatus, jqXHR) {-->
+            <!--//         alert("Data: " + data + "\nStatus: " + textStatus);-->
+            <!--//     },-->
+            <!--//     error: function (request, status, error) {-->
+            <!--//         alert(status);-->
+            <!--//     }-->
+            <!--// });-->
+            <!--//-->
+            <!--alert("This can happen if \"XSS\" is not blocked well.\n\ntoken: " + token + "\nheader: " + header);-->
+            <!--$.post(-->
+                <!--"/user/email",-->
+                <!--"email=" + "csrf@xss.omg",-->
+                <!--function (data, status) {-->
+                    <!--alert("Cross Site Request Forgery\n\nUpdated Email: " + data.email + "\nStatus: " + status);-->
+                <!--});-->
+        <!--</script>-->
+
+    </div>
+
+    <p><a href="/" th:href="@{/}">Back to home page</a></p>
+    <p><a href="/user" th:href="@{/user}">Go to Secured pages (user info)</a></p>
+</div>
+
+</body>
+</html>

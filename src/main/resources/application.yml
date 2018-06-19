@@ -1,0 +1,22 @@
+server:
+  port: 9094
+
+logging:
+  level:
+    com.millky.demo: debug
+    org.springframework.web: warn
+    org.springframework.security: info
+
+spring:
+  thymeleaf:
+    cache: false
+  h2:
+    console:
+      enabled: true
+#  datasource:
+#    url: jdbc:h2:file:./spring-sec4
+  jpa:
+    generate-ddl: true
+    show-sql: true
+#    hibernate:
+#      ddl-auto: update

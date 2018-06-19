@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Join</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <div th:replace="index::logout"></div>
+    <h1>Join page</h1>
+    <form th:object="${user}" th:action="@{/join}" method="post">
+        <label for="username">Username</label>:
+        <input type="text" id="username" name="username" autofocus="autofocus" th:field="*{username}"/>
+        <span th:each="error : ${#fields.errors('username')}" th:text="' ' + ${error}"/> <br/>
+        <label for="password">Password</label>:
+        <input type="password" id="password" name="password"/>
+        <span th:each="error : ${#fields.errors('password')}" th:text="' ' + ${error}"/> <br/>
+        <label for="email">Email</label>:
+        <input type="text" id="email" name="email" th:field="*{email}"/>
+        <span th:each="error : ${#fields.errors('email')}" th:text="' ' + ${error}"/> <br/>
+        <input type="submit" value="Join"/>
+    </form>
+    <hr>
+    <p><a href="/">Back to home page.</a></p>
+    <p><a href="/login" th:href="@{/login}">Go to Login page.</a></p>
+</div>
+</body>
+</html>
+
+
